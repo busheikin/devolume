@@ -24,8 +24,15 @@ cp build/DeVolume build/DeVolume.app/Contents/MacOS/
 # Copy Info.plist
 cp DeVolume/Info.plist build/DeVolume.app/Contents/
 
+# Copy app icon if it exists
+if [ -f "DeVolume/Resources/AppIcon.icns" ]; then
+    echo "Adding app icon..."
+    cp DeVolume/Resources/AppIcon.icns build/DeVolume.app/Contents/Resources/
+fi
+
 # Install to Applications folder
 echo "Installing to Applications folder..."
+mkdir -p ~/Applications
 rm -rf ~/Applications/DeVolume.app
 cp -R build/DeVolume.app ~/Applications/
 
