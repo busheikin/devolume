@@ -1,0 +1,57 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build DeVolume
+      run: |
+        mkdir -p build
+        # Convert iconset to icns
+        iconutil -c icns DeVolume/Resources/AppIcon.iconset -o DeVolume/Resources/AppIcon.icns
+        # Build the application
+        swiftc DeVolume/Sources/*.swift -o build/DeVolume \
+          -target arm64-apple-macosx10.13 \
+          -sdk $(xcrun --show-sdk-path --sdk macosx)
+        
+        # Create app bundle structure
+        mkdir -p "build/DeVolume.app/Contents/MacOS"
+        mkdir -p "build/DeVolume.app/Contents/Resources"
+        
+        # Copy binary and resources
+        cp build/DeVolume "build/DeVolume.app/Contents/MacOS/"
+        cp DeVolume/Resources/AppIcon.icns "build/DeVolume.app/Contents/Resources/"
+        cp DeVolume/Resources/Info.plist "build/DeVolume.app/Contents/"
+        
+        # Create ZIP archive
+        cd build
+        zip -r DeVolume.zip DeVolume.app
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/DeVolume.zip
+        asset_name: DeVolume.zip
+        asset_content_type: application/zip 
