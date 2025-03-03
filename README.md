@@ -4,7 +4,7 @@ A macOS application to manage processes using external volumes. DeVolume helps y
 
 ## Download and Install
 
-1. Go to the [Releases](https://github.com/busheikin/devolume/releases) page
+1. Go to the [Releases](https://github.com/antler-hat/devolume/releases) page
 2. Download the latest `DeVolume.zip`
 3. Unzip the file
 4. Drag `DeVolume.app` to your Applications folder
@@ -23,7 +23,7 @@ If you prefer to build the application yourself:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/busheikin/devolume.git
+   git clone https://github.com/antler-hat/devolume.git
    cd devolume
    ```
 
