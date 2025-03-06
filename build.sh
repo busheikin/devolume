@@ -11,7 +11,11 @@ echo "Compiling DeVolume..."
 swiftc -sdk $(xcrun --show-sdk-path --sdk macosx) \
     -target arm64-apple-macosx10.13 \
     -o build/DeVolume \
-    DeVolume/Sources/DeVolume.swift
+    DeVolume/Sources/Models/*.swift \
+    DeVolume/Sources/ViewControllers/*.swift \
+    DeVolume/Sources/AppDelegate.swift \
+    DeVolume/Sources/main.swift \
+    -import-objc-header DeVolume/Sources/DeVolume-Bridging-Header.h
 
 # Create application bundle structure
 echo "Creating application bundle..."

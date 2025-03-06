@@ -13,7 +13,7 @@ class VolumesViewController: NSViewController {
     
     private func setupUI() {
         // Title label
-        let titleLabel = NSTextField(labelWithString: "Select an External Volume")
+        let titleLabel = NSTextField(labelWithString: "Select a Volume")
         titleLabel.font = NSFont.systemFont(ofSize: 18, weight: .medium)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(titleLabel)
@@ -30,7 +30,7 @@ class VolumesViewController: NSViewController {
         volumesTableView.dataSource = self
         
         let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("VolumeColumn"))
-        column.title = "External Volumes"
+        column.title = "Mounted Volumes"
         column.width = 350
         volumesTableView.addTableColumn(column)
         
@@ -115,8 +115,6 @@ extension VolumesViewController: NSTableViewDelegate, NSTableViewDataSource {
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let volume = volumes[row]
-        
         let cellIdentifier = NSUserInterfaceItemIdentifier("VolumeCell")
         var cellView = tableView.makeView(withIdentifier: cellIdentifier, owner: self) as? NSTableCellView
         
@@ -136,8 +134,7 @@ extension VolumesViewController: NSTableViewDelegate, NSTableViewDataSource {
             ])
         }
         
-        cellView?.textField?.stringValue = volume.name
-        
+        cellView?.textField?.stringValue = volumes[row].name
         return cellView
     }
     

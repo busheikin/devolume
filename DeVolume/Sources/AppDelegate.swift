@@ -5,6 +5,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var volumesController: VolumesViewController!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        setupMenu()
+        
         // Create the main window
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
@@ -20,6 +22,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.contentViewController = volumesController
         
         window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    private func setupMenu() {
+        let mainMenu = NSMenu()
+        NSApp.mainMenu = mainMenu
+        
+        // Application menu
+        let appMenu = NSMenu()
+        let appMenuItem = NSMenuItem()
+        appMenuItem.submenu = appMenu
+        mainMenu.addItem(appMenuItem)
+        
+        // Add Quit item
+        appMenu.addItem(NSMenuItem(title: "Quit DeVolume", 
+                                 action: #selector(NSApplication.terminate(_:)), 
+                                 keyEquivalent: "q"))
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

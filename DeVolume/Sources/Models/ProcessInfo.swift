@@ -1,6 +1,6 @@
 import Foundation
 
-struct Volume {
+struct ProcessInfo {
     let name: String
-    let path: String
+    let pid: Int
 } 
